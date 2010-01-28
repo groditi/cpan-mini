@@ -39,25 +39,27 @@ does just yet.
 =cut
 
 sub run {
-  my %config = CPAN::Mini->read_config;
-  $config{class} ||= 'CPAN::Mini';
+  my %cl_opts;
   my $version;
 
   GetOptions(
-    "c|class=s"   => \$config{class},
+    "c|class=s"   => \$cl_opts{class},
     "h|help"      => sub { pod2usage(1); },
     "v|version"   => sub { $version = 1 },
-    "l|local=s"   => \$config{local},
-    "r|remote=s"  => \$config{remote},
-    "d|dirmode=s" => \$config{dirmode},
-    "qq"          => sub { $config{quiet} = 2; $config{errors} = 0; },
-    'offline'     => \$config{offline},
-    "q+" => \$config{quiet},
-    "f+" => \$config{force},
-    "p+" => \$config{perl},
-    "x+" => \$config{exact_mirror},
+    "l|local=s"   => \$cl_opts{local},
+    "r|remote=s"  => \$cl_opts{remote},
+    "d|dirmode=s" => \$cl_opts{dirmode},
+    "qq"          => sub { $cl_opts{quiet} = 2; $cl_opts{errors} = 0; },
+    'offline'     => \$cl_opts{offline},
+    'config=s'    => \$cl_opts{config_file},
+    "q+" => \$cl_opts{quiet},
+    "f+" => \$cl_opts{force},
+    "p+" => \$cl_opts{perl},
+    "x+" => \$cl_opts{exact_mirror},
   ) or pod2usage(2);
 
+  my %config = (CPAN::Mini->read_config(delete $cl_opts{config_file}), %cl_opts);
+  $config{class} ||= 'CPAN::Mini';
   eval "require $config{class}";
   die $@ if $@;
 

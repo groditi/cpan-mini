@@ -28,6 +28,7 @@ minicpan - uses CPAN::Mini to create or update a local mirror
    -v         - print version and exit
    -x         - build an exact mirror, getting even normally disallowed files
    --offline  - operate in offline mode (generally: do nothing)
+   --config   - manually specify the location of the configuration file
 
 =head1 DESCRIPTION
 
@@ -36,7 +37,7 @@ described in CPAN::Mini.
 
 =head1 CONFIGURATION FILE
 
-C<minicpan> will read the file C<~/.minicpanrc> to get configuration
+By default, C<minicpan> will read the file C<~/.minicpanrc> to get configuration
 information.  The file is a simple set of names and values, as in the following
 example:
 

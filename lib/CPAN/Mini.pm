@@ -583,12 +583,12 @@ sub trace {
 
 =head2 read_config
 
-  my %config = CPAN::Mini->read_config;
+  my %config = CPAN::Mini->read_config($optional_filename);
 
 This routine returns a set of arguments that can be passed to CPAN::Mini's
-C<new> or C<update_mirror> methods.  It will look for a file called
-F<.minicpanrc> in the user's home directory as determined by
-L<File::HomeDir|File::HomeDir>.
+C<new> or C<update_mirror> methods.  If a filename is not supplied, it will
+look for a file called F<.minicpanrc> in the user's home directory as
+determined by L<File::HomeDir|File::HomeDir>.
 
 =cut
 
@@ -611,9 +611,10 @@ sub __default_configfile {
 }
 
 sub read_config {
-  my ($class) = @_;
+  my ($class, $filename) = @_;
 
-  my $filename = File::Spec->catfile($class->__homedir, '.minicpanrc');
+  $filename = File::Spec->catfile($class->__homedir, '.minicpanrc')
+    unless defined $filename;
 
   $filename = $class->__default_configfile unless -e $filename;
   return unless -e $filename;

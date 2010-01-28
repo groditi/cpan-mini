@@ -1,5 +1,8 @@
 Revision history for CPAN-Mini
 
+0.577
+          Allow the user to explicitly state the location of the config file
+
 0.576     2009-01-16
           add repo to metadata
 
